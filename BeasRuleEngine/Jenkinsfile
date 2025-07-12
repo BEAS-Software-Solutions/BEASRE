@@ -1,0 +1,47 @@
+pipeline {
+    agent any
+    tools {
+        maven 'Maven 3.9.9'
+        jdk 'OpenJDK 17'
+    }
+    environment {
+        JAVA_HOME = '/opt/java/openjdk'
+        MVN_PATH = '/usr/share/maven'
+        PATH = "${JAVA_HOME}/bin:${MVN_PATH}/bin:${env.PATH}"
+        VERSION = "1.0.${BUILD_NUMBER}"
+        DOCKER_IMAGE = "beas-re"
+        NEXUS_URL = "docker.beassolution.com/repository/beassolution"
+        NEXUS_CREDENTIALS_ID = 'nexus-credentials'
+    }
+    stages {
+       stage('Build') {
+           steps {
+               echo 'Compiling the application with Maven.'
+                sh 'mvn clean package -DskipTests'
+           }
+       }
+       stage('Docker Version') {
+         steps {
+           echo "Docker Version..."
+           sh "docker version"
+         }
+       }
+       stage('Docker Build') {
+           steps {
+               echo 'Creating Docker image...'
+               sh "docker build -t ${DOCKER_IMAGE}:${VERSION} ."
+           }
+       }
+       stage('Docker Push to Nexus') {
+          steps {
+              script {
+                  withCredentials([usernamePassword(credentialsId: "${NEXUS_CREDENTIALS_ID}", usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
+                      sh 'echo "${NEXUS_PASSWORD}" | docker login ${NEXUS_URL} -u "${NEXUS_USERNAME}" --password-stdin'
+                  }
+                  sh "docker tag ${DOCKER_IMAGE}:${VERSION} ${NEXUS_URL}/${DOCKER_IMAGE}:${VERSION}"
+                  sh "docker push ${NEXUS_URL}/${DOCKER_IMAGE}:${VERSION}"
+              }
+          }
+      }
+    }
+}

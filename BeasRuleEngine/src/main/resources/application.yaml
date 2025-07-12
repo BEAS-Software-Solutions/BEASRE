@@ -1,0 +1,63 @@
+# Environment Variables for Security-Sensitive Configuration
+# These should be set in production environment or through secure configuration management
+# Example: export CRYPTO_KEY="your-secure-key-here"
+# Example: export MONGODB_PASSWORD="your-mongodb-password"
+# Example: export KEYCLOAK_URL="https://your-keycloak-instance.com"
+
+# Main Configuration
+rule:
+  container:
+    name: ${RULE_CONTAINER_NAME:general}
+
+cryptography:
+  key: ${CRYPTO_KEY:HHVTLtoWc2lx40CE2AZNSRGq}
+  iv: ${CRYPTO_IV:7vBvtOd1}
+
+spring:
+  application:
+    name: ${APP_NAME:beasre}
+  data:
+    mongodb:
+      host: ${MONGODB_HOST:localhost}
+      port: ${MONGODB_PORT:27017}
+      database: ${MONGODB_DATABASE:beasre}
+      username: ${MONGODB_USERNAME:}
+      # password: ${MONGODB_PASSWORD:}
+      authentication-database: ${MONGODB_AUTH_DATABASE:admin}
+      repositories.type: auto
+      # MongoDB connection string (alternative to individual properties)
+      uri: mongodb://localhost:27017/beasre
+  servlet:
+    multipart:
+      max-file-size: ${MAX_FILE_SIZE:1MB}
+      max-request-size: ${MAX_REQUEST_SIZE:1MB}
+  security:
+    oauth2:
+      authorizationserver:
+        endpoint:
+          jwk-set-uri: ${KEYCLOAK_URL:https://keycloak.beassolution.com}/realms/${KEYCLOAK_REALM:beas-rule-engine}/protocol/openid-connect/certs
+      resourceserver:
+        jwt:
+            issuer-uri: ${KEYCLOAK_URL:https://keycloak.beassolution.com}/realms/${KEYCLOAK_REALM:beas-rule-engine}
+
+server:
+  port: ${SERVER_PORT:8070}
+  servlet:
+    context-path: ${SERVER_CONTEXT_PATH:/beasre/v1}
+
+spring-doc:
+  open-api:
+    info:
+      version: "1.0.0"
+      title: "BEAS Rule Engine"
+      description: "BEAS Software Solution Rule Engine"
+      summary: "This project made for preparation of the Rule Engine."
+      termsOfService: ${TERMS_URL:https://beassolution.com/termOfService}
+      license:
+        url: ${LICENSE_URL:https://beassolution.com/rule-engine-license}
+        identifier: "®Copyright"
+        name: "BEAS Licence"
+      contact:
+        email: ${CONTACT_EMAIL:contact@beassolution.com}
+        name: ${CONTACT_NAME:BEAS Solution}
+        url: ${CONTACT_URL:https://beassolution.com}

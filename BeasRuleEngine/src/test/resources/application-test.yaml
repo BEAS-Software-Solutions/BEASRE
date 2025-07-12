@@ -1,0 +1,99 @@
+# Test configuration for Beas Rule Engine
+# This file contains test-specific configuration settings
+
+# Environment Variables for Test Configuration
+# These can be overridden for different test environments
+# Example: export TEST_MONGODB_HOST="test-mongodb-host"
+# Example: export TEST_CRYPTO_KEY="test-crypto-key-32-chars-long"
+
+# Test MongoDB Configuration
+TEST_MONGODB_HOST: ${TEST_MONGODB_HOST:localhost}
+TEST_MONGODB_PORT: ${TEST_MONGODB_PORT:27017}
+TEST_MONGODB_DATABASE: ${TEST_MONGODB_DATABASE:beas_rule_engine_test}
+TEST_MONGODB_USERNAME: ${TEST_MONGODB_USERNAME:}
+TEST_MONGODB_PASSWORD: ${TEST_MONGODB_PASSWORD:}
+
+# Test Cryptography Configuration
+TEST_CRYPTO_KEY: ${TEST_CRYPTO_KEY:12345678901234567890123456789012}
+TEST_CRYPTO_IV: ${TEST_CRYPTO_IV:12345678}
+
+# Test Security Configuration
+TEST_KEYCLOAK_URL: ${TEST_KEYCLOAK_URL:http://localhost:8080/auth}
+TEST_KEYCLOAK_REALM: ${TEST_KEYCLOAK_REALM:test-realm}
+
+# Test Server Configuration
+TEST_SERVER_PORT: ${TEST_SERVER_PORT:0}
+
+# Test Application Configuration
+TEST_APP_NAME: ${TEST_APP_NAME:beasre-test}
+TEST_RULE_CONTAINER: ${TEST_RULE_CONTAINER:test-general}
+
+spring:
+  profiles:
+    active: test
+  
+  application:
+    name: ${TEST_APP_NAME}
+  
+  # MongoDB test configuration
+  data:
+    mongodb:
+      host: ${TEST_MONGODB_HOST}
+      port: ${TEST_MONGODB_PORT}
+      database: ${TEST_MONGODB_DATABASE}
+      username: ${TEST_MONGODB_USERNAME}
+      password: ${TEST_MONGODB_PASSWORD}
+      auto-index-creation: true
+      # Test MongoDB connection string
+      uri: ${TEST_MONGODB_URI:mongodb://${TEST_MONGODB_HOST}:${TEST_MONGODB_PORT}/${TEST_MONGODB_DATABASE}}
+  
+  # Security test configuration
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${TEST_KEYCLOAK_URL}/realms/${TEST_KEYCLOAK_REALM}
+          jwk-set-uri: ${TEST_KEYCLOAK_URL}/.well-known/jwks.json
+
+# Cryptography test configuration
+cryptography:
+  key: ${TEST_CRYPTO_KEY}
+  iv: ${TEST_CRYPTO_IV}
+
+# Application test configuration
+rule:
+  container:
+    name: ${TEST_RULE_CONTAINER}
+
+# Logging configuration for tests
+logging:
+  level:
+    com.beassolution.rule: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.data.mongodb: DEBUG
+    org.mvel2: DEBUG
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+
+# Server test configuration
+server:
+  port: ${TEST_SERVER_PORT}
+  servlet:
+    context-path: /
+
+# Management endpoints for tests
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+# Test-specific application properties
+app:
+  test:
+    enabled: true
+    mock-external-services: true
+    use-in-memory-database: true 

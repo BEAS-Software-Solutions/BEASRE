@@ -1,80 +1,5 @@
-# Compiled class file
-*.class
-
-# Log file
-*.log
-
-# BlueJ files
-*.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-replay_pid*
-
-# ===== SPRING BOOT / JAVA =====
-# Maven
-target/
-pom.xml.tag
-pom.xml.releaseBackup
-pom.xml.versionsBackup
-pom.xml.next
-release.properties
-dependency-reduced-pom.xml
-buildNumber.properties
-.mvn/timing.properties
-.mvn/wrapper/maven-wrapper.jar
-
-# Gradle
-.gradle/
-build/
-!gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-# IntelliJ IDEA
-.idea/
-*.iws
-*.iml
-*.ipr
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/
-
-# Eclipse
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
-
-# NetBeans
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-
-# VS Code
-.vscode/
-
 # ===== REACT / NODE.JS =====
+
 # Dependencies
 node_modules/
 npm-debug.log*
@@ -186,8 +111,57 @@ public
 .yarn/install-state.gz
 .pnp.*
 
-# ===== GENERAL =====
-# OS generated files
+# ===== REACT SPECIFIC =====
+
+# Production build
+build/
+dist/
+
+# React DevTools
+.react-devtools
+
+# React Native
+.expo/
+.expo-shared/
+
+# ===== IDE / EDITOR =====
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# VS Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# ===== OS GENERATED =====
+
+# macOS
 .DS_Store
 .DS_Store?
 ._*
@@ -196,59 +170,74 @@ public
 ehthumbs.db
 Thumbs.db
 
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+
+# ===== GENERAL =====
+
 # Temporary files
 *.tmp
 *.temp
-*.swp
-*.swo
-*~
 
 # Backup files
 *.bak
 *.backup
 
-# IDE files
-.vscode/
-.idea/
-*.sublime-project
-*.sublime-workspace
-
-# Docker
-.dockerignore
-
-# Local configuration files
-application-local.yml
-application-local.properties
-*.local.*
-
 # Logs
 logs/
 *.log
 
-# Database
-*.db
-*.sqlite
-*.sqlite3
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
 
-# Certificates
-*.pem
-*.key
-*.crt
-*.p12
-*.pfx
+# Optional npm cache directory
+.npm
 
-# ===== PROJECT SPECIFIC =====
-# BeasRuleEngine specific
-BeasRuleEngine/target/
-BeasRuleEngine/.mvn/
-BeasRuleEngine/mvnw
-BeasRuleEngine/mvnw.cmd
+# Optional REPL history
+.node_repl_history
 
-# BeasRuleEngineUI specific
-BeasRuleEngineUI/node_modules/
-BeasRuleEngineUI/build/
-BeasRuleEngineUI/.env
-BeasRuleEngineUI/.env.local
-BeasRuleEngineUI/.env.development.local
-BeasRuleEngineUI/.env.test.local
-BeasRuleEngineUI/.env.production.local
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# ===== APPLICATION SPECIFIC =====
+
+# Environment files
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Build outputs
+build/
+dist/
+out/
+
+# Cache directories
+.cache/
+.parcel-cache/
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Local development
+.local/ 

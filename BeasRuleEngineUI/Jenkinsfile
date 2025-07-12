@@ -1,0 +1,70 @@
+pipeline {
+    agent any
+    tools {
+        nodejs 'NodeJS 23.1.0'
+    }
+    environment {
+        NPM_REGISTRY_URL = 'https://nexus.beassolution.com/repository/beassolution-rule-engine-ui/'
+        VERSION = "1.0.${BUILD_NUMBER}" 
+        DOCKER_IMAGE = "beassolution-rule-engine-ui"
+        NEXUS_URL = "docker.beassolution.com/repository/beassolution"
+        NEXUS_CREDENTIALS_ID = 'nexus-credentials'
+        DEBUG = 'true'
+        REACT_APP_BASE_PATH = 'https://rules.beassolution.com/formatter/v1'
+        REACT_APP_OIDC_AUTHORITY = 'https://keycloak.beassolution.com/realms/beas-rule-engine'
+        REACT_APP_OIDC_AUTHORIZATION_ENDPOINT = 'https://keycloak.beassolution.com/realms/beas-rule-engine/protocol/openid-connect/auth'
+        REACT_APP_OIDC_CLIENT_ID = 'beasre'
+        REACT_APP_OIDC_END_SESSION_ENDPOINT = 'https://keycloak.beassolution.com/realms/beas-rule-engine/protocol/openid-connect/logout'
+        REACT_APP_OIDC_INTROSPECTION_ENDPOINT = 'https://keycloak.beassolution.com/realms/beas-rule-engine/protocol/openid-connect/token/introspect'
+        REACT_APP_OIDC_JWKS_URI = 'https://keycloak.beassolution.com/realms/beas-rule-engine/protocol/openid-connect/certs'
+        REACT_APP_OIDC_POST_LOGOUT_REDIRECT_URI = 'https://template.beassolution.com/login'
+        REACT_APP_OIDC_REDIRECT_URI = 'https://template.beassolution.com/callback'
+        REACT_APP_OIDC_RESPONSE_TYPE = 'code'
+        REACT_APP_OIDC_SCOPE = 'openid profile email'
+        REACT_APP_OIDC_TOKEN_ENDPOINT = 'https://keycloak.beassolution.com/realms/beas-rule-engine/protocol/openid-connect/token'
+        REACT_APP_OIDC_USERINFO_ENDPOINT = 'https://keycloak.beassolution.com/realms/beas-rule-engine/protocol/openid-connect/userinfo'
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('Check npm Version') {
+            steps {
+                script {
+                    env.PATH = "${tool 'NodeJS 23.1.0'}/bin:${env.PATH}"
+                }
+                sh 'npm --version'
+                sh 'rm -rf node_modules package-lock.json'
+                sh 'npm cache clean --force'
+                sh 'npm install'
+            }
+        }
+        stage('Docker Build') {
+            steps {
+                echo 'Creating Docker image...'
+                 sh 'docker build --build-arg REACT_APP_BASE_PATH="${REACT_APP_BASE_PATH}" --build-arg REACT_APP_OIDC_AUTHORITY="${REACT_APP_OIDC_AUTHORITY}" --build-arg REACT_APP_OIDC_AUTHORIZATION_ENDPOINT="${REACT_APP_OIDC_AUTHORIZATION_ENDPOINT}" --build-arg REACT_APP_OIDC_CLIENT_ID="${REACT_APP_OIDC_CLIENT_ID}" --build-arg REACT_APP_OIDC_END_SESSION_ENDPOINT="${REACT_APP_OIDC_END_SESSION_ENDPOINT}" --build-arg REACT_APP_OIDC_INTROSPECTION_ENDPOINT="${REACT_APP_OIDC_INTROSPECTION_ENDPOINT}" --build-arg REACT_APP_OIDC_JWKS_URI="${REACT_APP_OIDC_JWKS_URI}" --build-arg REACT_APP_OIDC_POST_LOGOUT_REDIRECT_URI="${REACT_APP_OIDC_POST_LOGOUT_REDIRECT_URI}" --build-arg REACT_APP_OIDC_REDIRECT_URI="${REACT_APP_OIDC_REDIRECT_URI}" --build-arg REACT_APP_OIDC_RESPONSE_TYPE="${REACT_APP_OIDC_RESPONSE_TYPE}" --build-arg REACT_APP_OIDC_SCOPE="${REACT_APP_OIDC_SCOPE}" --build-arg REACT_APP_OIDC_TOKEN_ENDPOINT="${REACT_APP_OIDC_TOKEN_ENDPOINT}" --build-arg REACT_APP_OIDC_USERINFO_ENDPOINT="${REACT_APP_OIDC_USERINFO_ENDPOINT}" -t ${DOCKER_IMAGE}:${VERSION} .'
+            }
+        }
+        stage('Docker Push to Nexus') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: "${NEXUS_CREDENTIALS_ID}", usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
+                        sh 'echo "${NEXUS_PASSWORD}" | docker login ${NEXUS_URL} -u "${NEXUS_USERNAME}" --password-stdin'
+                    }
+                    sh "docker tag ${DOCKER_IMAGE}:${VERSION} ${NEXUS_URL}/${DOCKER_IMAGE}:${VERSION}"
+                    sh "docker push ${NEXUS_URL}/${DOCKER_IMAGE}:${VERSION}"
+                }
+            }
+        }
+    }
+    post {
+        success {
+            echo 'Build and deploy completed successfully!'
+        }
+        failure {
+            echo 'An error occurred during the build or deploy operation.'
+        }
+    }
+}
