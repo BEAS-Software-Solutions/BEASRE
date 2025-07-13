@@ -14,6 +14,9 @@ Rules List Page
 ![Rules page](screenshots/02-rule-screen.png)
 
 ### 🔧 Helper Management
+Create sample helper
+![Helper Java Project](screenshots/10-sample-helper.png)
+
 Helper Page
 ![Helpers page](screenshots/03-create-edit-helper.png)
 
