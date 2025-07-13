@@ -16,11 +16,6 @@ BEASRE/
 │   ├── package.json
 │   ├── Dockerfile
 │   └── Jenkinsfile
-├── BEASRuleEngineWeb/       # Static Web Documentation
-│   ├── index.html
-│   ├── styles.css
-│   ├── script.js
-│   └── Dockerfile
 └── README.md
 ```
 
