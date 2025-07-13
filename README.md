@@ -344,7 +344,7 @@ This project is licensed under the license specified in the [LICENSE](LICENSE) f
 
 - **Project Owner**: BEAS Solution Team
 - **Email**: info@beassolution.com
-- **Website**: https://beassolution.com
+- **Website**: https://ruleapp.beassolution.com
 
 ## 🙏 Acknowledgments
 
