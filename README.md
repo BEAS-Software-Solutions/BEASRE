@@ -2,6 +2,110 @@
 
 BEAS Rule Engine is a modern web application developed for rule-based business logic management. It is designed with a microservice architecture consisting of Spring Boot backend and React frontend.
 
+
+## 📸 Screenshots
+
+### 🔐 Authentication
+Log in from any OAuth system you have integrated with the system.
+![Login page](screenshots/01-keycloak-login.png)
+
+### 📋 Rules Management
+Rules List Page
+![Rules page](screenshots/02-rule-screen.png)
+
+### 🔧 Helper Management
+Helper Page
+![Helpers page](screenshots/03-create-edit-helper.png)
+
+### ⚙️ Function Management
+Functions Page
+![Functions page](screenshots/04-create-edit-functions.png)
+
+### 📝 Rule Creation
+Create Rule Page
+![Create Rule page](screenshots/05-create-edit-rule.png)
+
+### 🔄 Engine Synchronization
+Synchronization of the Rules Engine
+![Synch engine](screenshots/06-synch-engine.png)
+
+### 🔑 Token Management
+Get Token
+![Retrieve token](screenshots/07-get-token.png)
+
+**Get Access Token:**
+```bash
+curl --location 'https://keycloak.beassolution.com/realms/beas-rule-engine/protocol/openid-connect/token' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'client_id=beasre' \
+--data-urlencode 'grant_type=password' \
+--data-urlencode 'username=test' \
+--data-urlencode 'password=test'
+```
+
+### 🔄 Sync Operations
+Sync Request
+![Sync request](screenshots/08-sync-request.png)
+
+**Synchronize Rule Engine:**
+```bash
+curl --location 'http://localhost:8070/beasre/v1/rule-engine/sync' \
+--header 'Authorization: Bearer eyJhbG....g41edg'
+```
+*Note: Token is shortened for display purposes*
+
+### 🧪 Rule Evaluation
+Sample evaluation
+![Sample evaluation](screenshots/09-sample-rule-evaluate.png)
+
+**Request:**
+```bash
+curl --location 'http://localhost:8070/beasre/v1/rule-engine/evaluate' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Bearer eyJhbGciOi....g41edg' \
+--data '{
+    "ruleName": "SampleRule",
+    "parameters": {
+        "age": 20,
+        "name": "Serdar",
+        "surname": "TURKEL"
+    },
+    "payload": {
+        "sourceSystem": "company",
+        "note": "SBEAS",
+        "subObject":{
+            "name":"SBEAS"
+        }
+    }
+}'
+```
+
+**Response:**
+```json
+{
+    "status": {
+        "errorCode": 0,
+        "status": "OK",
+        "message": "Validation Executed",
+        "infoList": null
+    },
+    "response": {
+        "duplication": {
+            "result": false,
+            "input": [
+                "BEAS",
+                "BEAS",
+                "SOFTWARE",
+                "SOLUTIONS"
+            ]
+        }
+    }
+}
+```
+
+
+
+
 ## 🏗️ Project Structure
 
 ```
