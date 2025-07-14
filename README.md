@@ -3,36 +3,36 @@
 BEAS Rule Engine is a modern web application developed for rule-based business logic management. It is designed with a microservice architecture consisting of Spring Boot backend and React frontend.
 
 
-## 📸 Screenshots
+## Screenshots
 
-### 🔐 Authentication
+### Authentication
 Log in from any OAuth system you have integrated with the system.
 ![Login page](screenshots/01-keycloak-login.png)
 
-### 📋 Rules Management
+### Rules Management
 Rules List Page
 ![Rules page](screenshots/02-rule-screen.png)
 
-### 🔧 Helper Management
+### Helper Management
 Create sample helper
 ![Helper Java Project](screenshots/10-sample-helper.png)
 
 Helper Page
 ![Helpers page](screenshots/03-create-edit-helper.png)
 
-### ⚙️ Function Management
+### Function Management
 Functions Page
 ![Functions page](screenshots/04-create-edit-functions.png)
 
-### 📝 Rule Creation
+### Rule Creation
 Create Rule Page
 ![Create Rule page](screenshots/05-create-edit-rule.png)
 
-### 🔄 Engine Synchronization
+### Engine Synchronization
 Synchronization of the Rules Engine
 ![Synch engine](screenshots/06-synch-engine.png)
 
-### 🔑 Token Management
+### Token Management
 Get Token
 ![Retrieve token](screenshots/07-get-token.png)
 
@@ -46,7 +46,7 @@ curl --location 'https://keycloak.beassolution.com/realms/beas-rule-engine/proto
 --data-urlencode 'password=test'
 ```
 
-### 🔄 Sync Operations
+### Sync Operations
 Sync Request
 ![Sync request](screenshots/08-sync-request.png)
 
@@ -57,7 +57,7 @@ curl --location 'http://localhost:8070/beasre/v1/rule-engine/sync' \
 ```
 *Note: Token is shortened for display purposes*
 
-### 🧪 Rule Evaluation
+### Rule Evaluation
 Sample evaluation
 ![Sample evaluation](screenshots/09-sample-rule-evaluate.png)
 
@@ -109,7 +109,7 @@ curl --location 'http://localhost:8070/beasre/v1/rule-engine/evaluate' \
 
 
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 BEASRE/
@@ -126,7 +126,7 @@ BEASRE/
 └── README.md
 ```
 
-## 🚀 Technologies
+## Technologies
 
 ### Backend (BeasRuleEngine)
 - **Java 17**
@@ -152,26 +152,26 @@ BEASRE/
 - **Nexus Repository**
 - **Nginx** (Web Server)
 
-## 📋 Features
+## Features
 
-### 🔧 Rule Engine Features
+### Rule Engine Features
 - **Dynamic Rule Management**: MVEL2-based rule engine
 - **Helper Class Support**: Dynamic class loading from JAR files
 - **Function Libraries**: Reusable MVEL functions
 - **Cache Mechanism**: Multi-layer cache for performance optimization
 - **RSQL Querying**: Advanced filtering and search capabilities
 
-### 🔐 Security
+### Security
 - **OAuth2 Resource Server**: JWT-based authentication
 - **Field-Level Encryption**: Sensitive data encryption
 - **Role-Based Access Control**: Role-based access control
 
-### 📊 Data Management
+### Data Management
 - **MongoDB**: NoSQL database support
 - **Audit Trail**: Automatic audit logging
 - **Soft Delete**: Soft deletion operations
 
-## 🛠️ Installation
+## Installation
 
 ### Prerequisites
 - Java 17+
@@ -226,7 +226,7 @@ docker run -p 8090:8090 beas-rule-engine
 docker run -p 3000:80 beas-rule-engine-ui
 ```
 
-## 🔧 Configuration
+## Configuration
 
 ### Backend Configuration
 
@@ -260,13 +260,13 @@ export const oidcConfig = {
 };
 ```
 
-## 📚 API Documentation
+## API Documentation
 
 After the application starts, you can access Swagger UI at:
 - **Swagger UI**: `http://localhost:8090/swagger-ui.html`
 - **OpenAPI JSON**: `http://localhost:8090/v3/api-docs`
 
-## 🧪 Testing
+## Testing
 
 ### Backend Tests
 
@@ -282,7 +282,7 @@ cd BeasRuleEngineUI
 npm test
 ```
 
-## 🚀 Deployment
+## Deployment
 
 ### Jenkins Pipeline
 
@@ -303,7 +303,7 @@ docker run -d -p 8090:8090 --name beas-backend beas-rule-engine:latest
 docker run -d -p 80:80 --name beas-frontend beas-rule-engine-ui:latest
 ```
 
-## 📖 Usage
+## Usage
 
 ### Creating Rules
 
@@ -325,13 +325,13 @@ curl -X POST http://localhost:8090/api/v1/rule-engine/evaluate \
   }'
 ```
 
-## 🔍 Monitoring & Logging
+## Monitoring & Logging
 
 - **Application Logs**: Spring Boot logging
 - **Health Check**: `http://localhost:8090/actuator/health`
 - **Metrics**: `http://localhost:8090/actuator/metrics`
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the project
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
@@ -339,17 +339,17 @@ curl -X POST http://localhost:8090/api/v1/rule-engine/evaluate \
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📄 License
+## License
 
 This project is licensed under the license specified in the [LICENSE](LICENSE) file.
 
-## 📞 Contact
+## Contact
 
 - **Project Owner**: BEAS Solution Team
 - **Email**: info@beassolution.com
 - **Website**: https://ruleapp.beassolution.com
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 This project is developed using the following open source projects:
 
