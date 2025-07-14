@@ -87,6 +87,7 @@ application-dev.yml
 application-dev.properties
 application-prod.yml
 application-prod.properties
+application-local.yaml
 
 # Environment Variables
 .env

@@ -7,44 +7,42 @@
 # Main Configuration
 rule:
   container:
-    name: ${RULE_CONTAINER_NAME:general}
+    name: ${RULE_CONTAINER_NAME}
 
 cryptography:
-  key: ${CRYPTO_KEY:HHVTLtoWc2lx40CE2AZNSRGq}
-  iv: ${CRYPTO_IV:7vBvtOd1}
+  key: ${CRYPTO_KEY}
+  iv: ${CRYPTO_IV}
 
 spring:
   application:
-    name: ${APP_NAME:beasre}
+    name: ${APP_NAME}
   data:
     mongodb:
-      host: ${MONGODB_HOST:localhost}
-      port: ${MONGODB_PORT:27017}
-      database: ${MONGODB_DATABASE:beasre}
-      username: ${MONGODB_USERNAME:}
+      host: ${MONGODB_HOST}
+      port: ${MONGODB_PORT}
+      database: ${MONGODB_DATABASE}
+      username: ${MONGODB_USERNAME}
       # password: ${MONGODB_PASSWORD:}
-      authentication-database: ${MONGODB_AUTH_DATABASE:admin}
+      authentication-database: ${MONGODB_AUTH_DATABASE}
       repositories.type: auto
       # MongoDB connection string (alternative to individual properties)
-      uri: mongodb://localhost:27017/beasre
+      uri: mongodb://${MONGODB_HOST}:${MONGODB_PORT}/${MONGODB_DATABASE}
   servlet:
     multipart:
-      max-file-size: ${MAX_FILE_SIZE:1MB}
-      max-request-size: ${MAX_REQUEST_SIZE:1MB}
+      max-file-size: ${MAX_FILE_SIZE}
+      max-request-size: ${MAX_REQUEST_SIZE}
   security:
     oauth2:
       authorizationserver:
         endpoint:
-          jwk-set-uri: ${KEYCLOAK_URL:https://keycloak.beassolution.com}/realms/${KEYCLOAK_REALM:beas-rule-engine}/protocol/openid-connect/certs
+          jwk-set-uri: ${KEYCLOAK_URL}/realms/${KEYCLOAK_REALM}/protocol/openid-connect/certs
       resourceserver:
         jwt:
-            issuer-uri: ${KEYCLOAK_URL:https://keycloak.beassolution.com}/realms/${KEYCLOAK_REALM:beas-rule-engine}
-
+            issuer-uri: ${KEYCLOAK_URL}/realms/${KEYCLOAK_REALM}
 server:
-  port: ${SERVER_PORT:8070}
+  port: ${SERVER_PORT}
   servlet:
-    context-path: ${SERVER_CONTEXT_PATH:/beasre/v1}
-
+    context-path: ${SERVER_CONTEXT_PATH}
 spring-doc:
   open-api:
     info:
@@ -52,12 +50,12 @@ spring-doc:
       title: "BEAS Rule Engine"
       description: "BEAS Software Solution Rule Engine"
       summary: "This project made for preparation of the Rule Engine."
-      termsOfService: ${TERMS_URL:https://beassolution.com/termOfService}
+      termsOfService: https://beassolution.com/termOfService
       license:
-        url: ${LICENSE_URL:https://beassolution.com/rule-engine-license}
+        url: https://beassolution.com/rule-engine-license
         identifier: "®Copyright"
         name: "BEAS Licence"
       contact:
-        email: ${CONTACT_EMAIL:contact@beassolution.com}
-        name: ${CONTACT_NAME:BEAS Solution}
-        url: ${CONTACT_URL:https://beassolution.com}
+        email: contact@beassolution.com
+        name: BEAS Solution
+        url: https://ruleapp.beassolution.com

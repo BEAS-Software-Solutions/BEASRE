@@ -1,0 +1,12 @@
+rule:
+  engine:
+    baseUrl: http://localhost:8070/beasre/v1/rule-engine
+    enabled: true
+    useClientToken: false
+keycloak:
+  tokenEndpoint: https://keycloak.beassolution.com/realms/beas-rule-engine/protocol/openid-connect/token
+  clientId: beasre-client
+  clientSecret: rtp1uCuXKfUG579DIg7l6T4GbFDVofGP
+  grantType: client_credentials
+
+spring.application.name: spring-example
