@@ -3,6 +3,7 @@ package com.beassolution.rule.advice;
 import com.beassolution.rule.dto.response.base.BaseResponse;
 import com.beassolution.rule.dto.response.base.BaseResponseModel;
 import com.beassolution.rule.exception.OperationException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.data.mongodb.core.MongoDataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -42,6 +43,7 @@ import java.util.Collection;
  * @since 1.0
  */
 @ControllerAdvice
+@Slf4j
 public class GeneralAdvice implements ResponseBodyAdvice<Collection<?>> {
 
     /**
@@ -52,6 +54,7 @@ public class GeneralAdvice implements ResponseBodyAdvice<Collection<?>> {
      * @return The converted OperationException
      */
     public static OperationException convertToOperationException(Throwable throwable, HttpStatus status) {
+        log.error(throwable.getMessage(),throwable);
         var operationException = new OperationException(throwable.getMessage(), status);
         operationException.setStackTrace(throwable.getStackTrace());
         operationException.fillInStackTrace();
@@ -67,6 +70,7 @@ public class GeneralAdvice implements ResponseBodyAdvice<Collection<?>> {
      * @return The standardized response model
      */
     public static BaseResponseModel<OperationException> generateOperationMessage(OperationException operationException) {
+        log.error(operationException.getMessage(),operationException);
         var baseModel = new BaseResponseModel<OperationException>();
         var baseResponse = new BaseResponse();
         baseResponse.setMessage("FAIL");
@@ -122,6 +126,7 @@ public class GeneralAdvice implements ResponseBodyAdvice<Collection<?>> {
     @ResponseStatus(value = HttpStatus.PRECONDITION_FAILED)
     @ExceptionHandler(MongoDataIntegrityViolationException.class)
     public BaseResponseModel<OperationException> handleMongoDataIntegrityViolation(MongoDataIntegrityViolationException exception) {
+        log.error(exception.getMessage(),exception);
         return generateOperationMessage(convertToOperationException(exception, HttpStatus.BAD_REQUEST));
     }
 
@@ -135,6 +140,7 @@ public class GeneralAdvice implements ResponseBodyAdvice<Collection<?>> {
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(OperationException.class)
     public BaseResponseModel<OperationException> handleOperationException(OperationException exception) {
+        log.error(exception.getMessage(),exception);
         return generateOperationMessage(exception);
     }
 
@@ -148,6 +154,7 @@ public class GeneralAdvice implements ResponseBodyAdvice<Collection<?>> {
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMessageConversionException.class)
     public BaseResponseModel<OperationException> handleHttpMessageConversionException(HttpMessageConversionException exception) {
+        log.error(exception.getMessage(),exception);
         return generateOperationMessage(convertToOperationException(exception, HttpStatus.BAD_REQUEST));
     }
 
@@ -162,6 +169,7 @@ public class GeneralAdvice implements ResponseBodyAdvice<Collection<?>> {
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public BaseResponseModel<OperationException> handleHttpRequestMethodNotSupportedException(
             HttpRequestMethodNotSupportedException exception) {
+        log.error(exception.getMessage(),exception);
         return generateOperationMessage(convertToOperationException(exception, HttpStatus.METHOD_NOT_ALLOWED));
     }
 
@@ -175,6 +183,7 @@ public class GeneralAdvice implements ResponseBodyAdvice<Collection<?>> {
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public BaseResponseModel<OperationException> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
+        log.error(exception.getMessage(),exception);
         return generateOperationMessage(convertToOperationException(exception, HttpStatus.BAD_REQUEST));
     }
 
@@ -188,6 +197,7 @@ public class GeneralAdvice implements ResponseBodyAdvice<Collection<?>> {
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     @ExceptionHandler(NoHandlerFoundException.class)
     public BaseResponseModel<OperationException> handleNoHandlerFoundException(NoHandlerFoundException exception) {
+        log.error(exception.getMessage(),exception);
         return generateOperationMessage(convertToOperationException(exception, HttpStatus.NOT_FOUND));
     }
 
@@ -201,6 +211,7 @@ public class GeneralAdvice implements ResponseBodyAdvice<Collection<?>> {
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Throwable.class)
     public BaseResponseModel<OperationException> handleThrowable(Throwable throwable) {
+        log.error(throwable.getMessage(),throwable);
         return generateOperationMessage(convertToOperationException(throwable, HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
@@ -214,6 +225,7 @@ public class GeneralAdvice implements ResponseBodyAdvice<Collection<?>> {
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public BaseResponseModel<OperationException> handleException(Exception exception) {
+        log.error(exception.getMessage(),exception);
         return generateOperationMessage(convertToOperationException(exception, HttpStatus.INTERNAL_SERVER_ERROR));
     }
     
@@ -227,6 +239,7 @@ public class GeneralAdvice implements ResponseBodyAdvice<Collection<?>> {
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Error.class)
     public BaseResponseModel<OperationException> handleError(Error error) {
+        log.error(error.getMessage(),error);
         var cause = error.getCause() != null ? error.getCause() : error;
         return generateOperationMessage(convertToOperationException(cause, HttpStatus.INTERNAL_SERVER_ERROR));
     }
